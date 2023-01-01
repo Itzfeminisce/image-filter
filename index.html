@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>HTML</title>
+
+  <!-- HTML -->
+
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <form action="#" method="get" enctype="multipart/form-data">
+    <input type="file" name="file" id="file">
+  </form>
+
+
+  <p class="info">Applied <span id="activeFilter">original</span> Filter</p>
+
+
+
+  <div class="container">
+    <canvas id="canvas"></canvas>
+    <div class="filters">
+      <button class="filter" data-filter="original">Original</button>
+      <button class="filter" data-filter="greyscale">Greyscale</button>
+      <button class="filter" data-filter="serpia">Serpia</button>
+      <button class="filter" data-filter="inverted">Inverted</button>
+      <div class="manual-filter">
+        <p>Manual Filter</p>
+        <div class="manuals">
+          <button 
+          class="manual filter"
+          data-filter="manual" 
+          data-filter-type="plus">+</button>
+          
+          <button 
+          class="manual filter" 
+          data-filter="manual" 
+          data-filter-type="minus">-</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+
+</html>
