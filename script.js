@@ -8,7 +8,7 @@ class ImageFile {
     this.x = 0;
     this.y = 0;
     this.w = w || ctx.canvas.width || 900;
-    this.h =h || ctx.canvas.height || 900;
+    this.h = h || ctx.canvas.height || 900;
     const px = (100 / blur) * 0.01;
     this.ratio = Math.floor((this.h / 100 + this.w / 100) * px);
     this.ctx = ctx;
@@ -17,7 +17,14 @@ class ImageFile {
     this.canvas.height = this.h;
     this.image = new Image();
     this.file = {};
+    document.querySelector('.variants').querySelectorAll('canvas').forEach(v=>(v.addEventListener('click',e=>(!e.target.dataset?.id &&  alert('Please upload a photo first!')))))
   }
+  async welcome() {
+    const image = document.getElementById("welcome");
+    this.ctx.drawImage(image, 0, 0, this.w, this.h);
+    this.createWaterMark(this.ctx.canvas);
+  }
+
   draw(image) {
     return new Promise(
       (res, rej) => {
@@ -25,12 +32,12 @@ class ImageFile {
         fr.onload = () => {
           this.image.src = fr.result;
         };
-        this.file = image
+        this.file = image;
         fr.readAsDataURL(image);
 
         this.image.onload = () => {
           this.ctx.drawImage(this.image, 0, 0, this.w, this.h);
-          this.createWaterMark(this.ctx.canvas)
+          this.createWaterMark(this.ctx.canvas);
           res(this.image);
         };
       },
@@ -169,8 +176,8 @@ class ImageFile {
       img.src = this.image.src;
       img.width = this.w;
       img.height = this.h;
-      this.ctx.clearRect(0,0,this.w, this.h);
-      
+      this.ctx.clearRect(0, 0, this.w, this.h);
+
       this.ctx.drawImage(
         this.image,
         0,
@@ -178,31 +185,31 @@ class ImageFile {
         this.w, //.ctx.canvas.width,
         this.h //ctx.canvas.height
       );
-      
+
       const cv = await this.createVariations(
         this.canvas,
         Number.parseInt(variant.dataset.id)
       );
-      this.createWaterMark(cv)
+      this.createWaterMark(cv);
       this.ctx.drawImage(cv, 0, 0);
-      
+
       // document.getElementById('cv').getContext('2d').drawImage(cv,0,0,100,100)
     });
   }
-  createWaterMark(canvas){
-  //  const canvas = cv
-// || document.getElementById("cv");
-    const mw = 100
-const ctx = canvas.getContext("2d");
-const text = URL.hostname || 'Filterize'
+  createWaterMark(canvas) {
+    //  const canvas = cv
+    // || document.getElementById("cv");
+    const mw = 100;
+    const ctx = canvas.getContext("2d");
+    const text = URL.hostname || "Filterize";
 
-    const x = canvas.width - 200
-    const y = canvas.height - (canvas.height/100) -10
+    const x = canvas.width - 200;
+    const y = canvas.height - canvas.height / 100 - 10;
 
-ctx.font = "30px monospace";
-ctx.strokeText(text, x,y);
-  //  document.body.appendChild(canvas)
-   //this.ctx.drawImage(canvas,0,0,100,50)
+    ctx.font = "30px monospace";
+    ctx.strokeText(text, x, y);
+    //  document.body.appendChild(canvas)
+    //this.ctx.drawImage(canvas,0,0,100,50)
   }
 }
 class Background {
@@ -239,17 +246,18 @@ class Background {
 
       image.onload = () => {
         self.ctx.drawImage(image, 0, 0, self.w, self.h);
-let i = 0,j=0
+        let i = 0,
+          j = 0;
         for (let aw = 0; aw < self.w; aw += self.gap) {
-            i++
+          i++;
           for (let bw = 0; bw < self.h; bw += self.gap) {
-            j++
+            j++;
             const a = document.createElement("canvas");
             const ax = a.getContext("2d");
             ax.drawImage(
               self.canvas,
-             i* aw,
-             j* bw,
+              i * aw,
+              j * bw,
               self.cx,
               self.cy,
               0,
@@ -265,34 +273,46 @@ let i = 0,j=0
   }
 }
 
-
 window.addEventListener(
   "load",
   () => {
     const canvas = document.getElementById("cv");
     canvas.width = 900;
     canvas.height = 900;
-  //  const bg = new Background(canvas);
+    /*
+    const context = canvas.getContext("2d");
+    const welcome = new Image();
+    welcome.src = document.getElementById("welcome").src;
+    context.drawImage(welcome,0,0,canvas.width,canvas.height);
+    */
+    // const bg = new Background(canvas);
     //  bg.getChunk();
     //.forEach(m=>(document.body.appendChild(m)))
-    
-    const ctx = canvas.getContext("2d");
-            ctx.fillText('Hello world',0,0)
 
-    
-    const image = new ImageFile(ctx);
+    const image = new ImageFile(canvas.getContext("2d"));
+    image.welcome();
 
     const filePicker = document.querySelector("[type=file]");
-  document.getElementById('picker').addEventListener('click',()=>filePicker.click())
-  document.getElementById('download').addEventListener('change', function (){
-    if(this.value == 'never') return 
-    const a = document.createElement('a')
-    a.setAttribute('href',canvas.toDataURL(this.value,this.value !== 'image/png'?0.8:1000))
-    a.setAttribute('download',(image.file.name.indexOf('.')>0?image.file.name.split('.')[0]: image.file.name))
-    a.setAttribute('target','_blank')
-    a.click()
-  })
-   
+    document
+      .getElementById("picker")
+      .addEventListener("click", () => filePicker.click());
+    document.getElementById("download").addEventListener("change", function () {
+      if (this.value == "never") return;
+      const a = document.createElement("a");
+      a.setAttribute(
+        "href",
+        canvas.toDataURL(this.value, this.value !== "image/png" ? 0.8 : 1000)
+      );
+      a.setAttribute(
+        "download",
+        image.file.name.indexOf(".") > 0
+          ? image.file.name.split(".")[0]
+          : image.file.name
+      );
+      a.setAttribute("target", "_blank");
+      a.click();
+    });
+
     filePicker.addEventListener("change", async function () {
       const file = await image.draw(this.files[0]);
       try {
@@ -305,7 +325,6 @@ window.addEventListener(
         console.log(e);
       }
     });
-    
   },
   false
 );
