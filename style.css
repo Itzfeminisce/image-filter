@@ -19,7 +19,7 @@ canvas#cv{
   width: 100%;
   height: calc(100vh - calc(80px *3) - 20px);
  
- background-color: white;
+ background-color: transparent;
   margin: auto;
   display: block;
   border: 2px dashed black;
@@ -81,6 +81,9 @@ header{
   align-items: center;
   margin: 5px;
 }
-#welcome{
-  display: none;
+#chunks{
+  display: flex;
+  align-items: center;
+  flex-flow: row wrap;
+  justify-content: center;
 }
