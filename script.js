@@ -11,13 +11,12 @@ class ImageFile {
     this.h = h || ctx.canvas.height || 400;
     const px = (100 / blur) * 0.01;
     this.ratio = Math.floor((this.h / 100 + this.w / 100) * px);
-    console.log(this.ratio);
     this.ctx = ctx;
     this.canvas = this.ctx.canvas;
     this.canvas.width = this.w;
     this.canvas.height = this.h;
     this.image = new Image();
-    this.file = null;
+    this.file = {};
   }
   draw(image) {
     return new Promise(
@@ -25,8 +24,8 @@ class ImageFile {
         const fr = new FileReader();
         fr.onload = () => {
           this.image.src = fr.result;
-          this.file = image;
         };
+        this.file = image
         fr.readAsDataURL(image);
 
         this.image.onload = () => {
@@ -245,6 +244,8 @@ let i = 0,j=0
     }
   }
 }
+
+
 window.addEventListener(
   "load",
   () => {
@@ -259,19 +260,16 @@ window.addEventListener(
     const image = new ImageFile(ctx, 900, 900);
 
     const filePicker = document.querySelector("[type=file]");
-  
-permit("We're trying to open file explorer to pick a photo. Continue?")
+  document.getElementById('picker').addEventListener('click',()=>filePicker.click())
+  document.getElementById('download').addEventListener('change', function (){
+    if(this.value == 'never') return 
+    const a = document.createElement('a')
+    a.setAttribute('href',canvas.toDataURL(this.value,this.value !== 'image/png'?0.8:1000))
+    a.setAttribute('download',(image.file.name.indexOf('.')>0?image.file.name.split('.')[0]: image.file.name))
+    a.setAttribute('target','_blank')
+    a.click()
+  })
    
-   function permit (msg){
-     
-     let permitted = confirm(msg)
-     if(permitted){
-    filePicker.click();
-    permitted = true
-     }
-     if(! permitted) permit('You have to choose a photo to continue. Ready?')
-   }
-    
     filePicker.addEventListener("change", async function () {
       const file = await image.draw(this.files[0]);
       try {
