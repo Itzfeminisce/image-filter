@@ -67,3 +67,17 @@ canvas#cv{
   font-family: monospace;
   box-shadow: 0 0 0px 1px grey;
 }
+footer,header{
+ text-align: center;
+ padding: 5px;
+ margin: 20px;
+ font-size: x-small;
+ color: white;
+}
+
+header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px;
+}

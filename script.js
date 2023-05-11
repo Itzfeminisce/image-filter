@@ -7,8 +7,8 @@ class ImageFile {
       throw new Error("Blur value cannot be less than 0.1 or greater than 10");
     this.x = 0;
     this.y = 0;
-    this.w = w || ctx.canvas.width || 400;
-    this.h = h || ctx.canvas.height || 400;
+    this.w = w || ctx.canvas.width || 900;
+    this.h =h || ctx.canvas.height || 900;
     const px = (100 / blur) * 0.01;
     this.ratio = Math.floor((this.h / 100 + this.w / 100) * px);
     this.ctx = ctx;
@@ -30,6 +30,7 @@ class ImageFile {
 
         this.image.onload = () => {
           this.ctx.drawImage(this.image, 0, 0, this.w, this.h);
+          this.createWaterMark(this.ctx.canvas)
           res(this.image);
         };
       },
@@ -168,21 +169,40 @@ class ImageFile {
       img.src = this.image.src;
       img.width = this.w;
       img.height = this.h;
-      this.ctx.clearRect(0, 0, this.w, this.h);
+      this.ctx.clearRect(0,0,this.w, this.h);
+      
       this.ctx.drawImage(
         this.image,
         0,
         0,
-        this.ctx.canvas.width,
-        this.ctx.canvas.height
+        this.w, //.ctx.canvas.width,
+        this.h //ctx.canvas.height
       );
+      
       const cv = await this.createVariations(
         this.canvas,
         Number.parseInt(variant.dataset.id)
       );
+      this.createWaterMark(cv)
       this.ctx.drawImage(cv, 0, 0);
+      
       // document.getElementById('cv').getContext('2d').drawImage(cv,0,0,100,100)
     });
+  }
+  createWaterMark(canvas){
+  //  const canvas = cv
+// || document.getElementById("cv");
+    const mw = 100
+const ctx = canvas.getContext("2d");
+const text = URL.hostname || 'Filterize'
+
+    const x = canvas.width - 200
+    const y = canvas.height - (canvas.height/100) -10
+
+ctx.font = "30px monospace";
+ctx.strokeText(text, x,y);
+  //  document.body.appendChild(canvas)
+   //this.ctx.drawImage(canvas,0,0,100,50)
   }
 }
 class Background {
@@ -250,14 +270,17 @@ window.addEventListener(
   "load",
   () => {
     const canvas = document.getElementById("cv");
-    canvas.width = 50;
-    canvas.height = 50;
+    canvas.width = 900;
+    canvas.height = 900;
   //  const bg = new Background(canvas);
     //  bg.getChunk();
     //.forEach(m=>(document.body.appendChild(m)))
     
     const ctx = canvas.getContext("2d");
-    const image = new ImageFile(ctx, 900, 900);
+            ctx.fillText('Hello world',0,0)
+
+    
+    const image = new ImageFile(ctx);
 
     const filePicker = document.querySelector("[type=file]");
   document.getElementById('picker').addEventListener('click',()=>filePicker.click())
