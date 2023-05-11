@@ -1,0 +1,49 @@
+:root {
+  --vspace:
+}
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body{
+  padding: 0;
+  margin: 0;
+    background-color: black;
+}
+.container{
+  width: 100%;
+  padding: 10px;
+}
+canvas#cv{
+  width: 100%;
+  height: calc(100vh - calc(80px *3) - 20px);
+ 
+ background-color: white;
+  margin: auto;
+  display: block;
+  border: 2px dashed black;
+  border-radius: 5px;
+}
+.chunk {
+  margin: 5px;
+}
+.variants{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: row wrap;
+  margin-top: 5px;
+}
+.active {
+  border: 5px dotted red;
+  transform: scale(0.7);
+}
+.variants canvas {
+  width: 80px;
+  height: 80px;
+  flex: 24.5% 1 0;
+  background-color: grey;
+  margin: .8px;
+  transition: 500ms;
+}
