@@ -259,8 +259,19 @@ window.addEventListener(
     const image = new ImageFile(ctx, 900, 900);
 
     const filePicker = document.querySelector("[type=file]");
+  
+permit("We're trying to open file explorer to pick a photo. Continue?")
+   
+   function permit (msg){
+     
+     let permitted = confirm(msg)
+     if(permitted){
     filePicker.click();
-
+    permitted = true
+     }
+     if(! permitted) permit('You have to choose a photo to continue. Ready?')
+   }
+    
     filePicker.addEventListener("change", async function () {
       const file = await image.draw(this.files[0]);
       try {
