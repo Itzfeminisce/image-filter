@@ -198,13 +198,17 @@ class ImageFile {
     // || document.getElementById("cv");
     const mw = 100;
     const ctx = canvas.getContext("2d");
-    const text = URL.hostname || "Filterize";
+    const text = "filterize.vercel.app" //(new URL(window.location.href)).hostname || "Filterize";
 
-    const x = canvas.width - 200;
+    const x = canvas.width - 250;
     const y = canvas.height - canvas.height / 100 - 10;
 
-    ctx.font = "30px monospace";
+    ctx.font = "20px monospace";
+    ctx.strokeStyle = "black";
+    ctx.fillStyle = "white";
+    ctx.lineWidth = 5;
     ctx.strokeText(text, x, y);
+    ctx.fillText(text, x, y);
     //  document.body.appendChild(canvas)
     //this.ctx.drawImage(canvas,0,0,100,50)
   }
