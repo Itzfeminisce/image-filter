@@ -198,7 +198,7 @@ class ImageFile {
     // || document.getElementById("cv");
     const mw = 100;
     const ctx = canvas.getContext("2d");
-    const text = "filterize.vercel.app" //(new URL(window.location.href)).hostname || "Filterize";
+    const text = (new URL(window.location.href)).hostname || "Filterize";
 
     const x = canvas.width - 250;
     const y = canvas.height - canvas.height / 100 - 10;
