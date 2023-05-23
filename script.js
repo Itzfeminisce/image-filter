@@ -5,8 +5,8 @@ window.addEventListener(
   "load",
   () => {
     const canvas = document.getElementById("cv");
-    canvas.width = 900;
-    canvas.height = 900;
+    canvas.width = document.getElementById('w').valueAsNumber || 900;
+    canvas.height = document.getElementById('h').valueAsNumber || 900;
     const image = new ImageFile(canvas.getContext("2d"));
     image.welcome();
 
