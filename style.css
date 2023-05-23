@@ -55,7 +55,7 @@ canvas#cv{
   margin: 5px;
 }
 
-.btn-g button, .btn-g select {
+.btn-g button, .btn-g select, .btn-g input {
   flex: 48% 1 0;
   padding: 10px;
   margin: 2px;
@@ -66,6 +66,11 @@ canvas#cv{
   color: white;
   font-family: monospace;
   box-shadow: 0 0 0px 1px grey;
+}
+.btn-g input {
+  color:grey;
+  width :48.5%;
+  background-color:white;
 }
 footer,header{
  text-align: center;
